@@ -38,21 +38,22 @@ A. LEARNING ALGORITHMS
 Implementations are included in folders each of which is 
 named according to the name of the corresponding algorithm.
 Each folder includes a file implementing the algorithm and 
-the other file run the algorithm to learn model from a large corpus.
+the other file run the algorithm to learn model from a large
+corpus.
 
 Estimate a model by executing:
 
-     python run_[name of algorithm] .py  [train file] [setting file] 
+     python run_[name of algorithm].py  [train file] [setting file] 
 [model folder] [test data folder]
 
 [train file]                      path of the training data.
 [setting file]                    path of setting file provides parameters 
                                   for learning.
 [model folder]                    path of the folder for saving the learned model.
-[test data folder]             	  path of the folder contains data for computing
+[test data folder]             	 path of the folder contains data for computing
                                   perplexity (described in details in B).
 
-The model folder will contain some more files. These files contain some statistics of how the model is after a mini-batch is processed. These statistics include topic mixture sparsity, perplexity of the model, top ten words of each topic, and time for finishing E and M steps. 
+The model folder will contain some more files. These files contain some statistics of how the model is after a mini-batch is processed. These statistics include topic mixture sparsity, perplexity of the model, top ten words of each topic, and time for finishing the E and M steps. 
 
 Example: python ./run_ML_FW.py ../data/nyt_50k.txt ../settings.txt ../models/ML_FW/nyt ../data
 
