@@ -96,4 +96,4 @@ class FW:
         LD2 = 0.
         for d in range(batch_size):
             LD2 += self.compute_lkh_d2(theta[d], wordids_2[d], wordcts_2[d])
-        return(LD2)
+        return(LD2 / batch_size)
