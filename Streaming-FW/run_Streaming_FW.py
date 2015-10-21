@@ -30,7 +30,7 @@ def main():
     utilities.write_setting(ddict, file_name)
     # Read data for computing perplexities
     print'read data for computing perplexities ...'
-    (corpusids_part1, corpuscts_part1, corpusids_part2, corpuscts_part2) = \
+    (wordids_1, wordcts_1, wordids_2, wordcts_2) = \
     utilities.read_data_for_perpl(divided_data_folder)
     # Initialize the algorithm
     print'initialize the algorithm ...'
@@ -55,12 +55,12 @@ def main():
             # Compute sparsity
             sparsity = utilities.compute_sparsity(theta, theta.shape[0], theta.shape[1], 't')
             # Compute perplexities
-            (LD2, ld2_list) = utilities.compute_perplexities_fw(streaming_fw._lambda, ddict['iter_infer'], \
-                                         corpusids_part1, corpuscts_part1, corpusids_part2, corpuscts_part2)   
+            LD2 = utilities.compute_perplexities_fw(streaming_fw._lambda, ddict['iter_infer'], \
+                                                                 wordids_1, wordcts_1, wordids_2, wordcts_2)   
             # Search top words of each topics
             list_tops = utilities.list_top(streaming_fw._lambda, tops)    
             # Write files
-            utilities.write_file(i, j, streaming_fw._lambda, time_e, time_m, theta, sparsity, LD2, ld2_list, list_tops, tops, model_folder)
+            utilities.write_file(i, j, streaming_fw._lambda, time_e, time_m, theta, sparsity, LD2, list_tops, tops, model_folder)
         datafp.close()
     # Write final model to file
     file_name = '%s/lambda_final.dat'%(model_folder)
