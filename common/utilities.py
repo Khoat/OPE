@@ -32,21 +32,12 @@ def read_data(filename):
 """
     Read data for computing perplexities.
 """
-def read_data_for_perpl(divided_data_folder):
-    corpusids_part1 = list()
-    corpuscts_part1 = list()
-    corpusids_part2 = list()
-    corpuscts_part2 = list()
-    for i in range(5):
-        filename_part1 = '%s/data_test_%d_part_1.txt'%(divided_data_folder, i+1)
-        filename_part2 = '%s/data_test_%d_part_2.txt'%(divided_data_folder, i+1)
-        (wordids_1, wordcts_1) = read_data(filename_part1)
-        (wordids_2, wordcts_2) = read_data(filename_part2)
-        corpusids_part1.append(wordids_1)
-        corpuscts_part1.append(wordcts_1)
-        corpusids_part2.append(wordids_2)
-        corpuscts_part2.append(wordcts_2)
-    return(corpusids_part1, corpuscts_part1, corpusids_part2, corpuscts_part2)
+def read_data_for_perpl(test_data_folder):
+    filename_part1 = '%s/data_test_part_1.txt'%(test_data_folder)
+    filename_part2 = '%s/data_test_part_2.txt'%(test_data_folder)
+    (wordids_1, wordcts_1) = read_data(filename_part1)
+    (wordids_2, wordcts_2) = read_data(filename_part2)
+    return(wordids_1, wordcts_1, wordids_2, wordcts_2)
 
 """
     Read mini-batch and stores terms and counts in lists. 
@@ -145,29 +136,18 @@ def read_setting(file_name):
     Compute perplexities, employing Variational Bayes.
 """
 def compute_perplexities_vb(beta, alpha, eta, max_iter, corpusids_part1, 
-                           corpuscts_part1, corpusids_part2, corpuscts_part2):
+                            wordids_1, wordcts_1, wordids_2, wordcts_2):
     vb = per_vb.VB(beta, alpha, eta, max_iter)
-    LD2 = 0.
-    ld2_list = list()
-    for k in range(5):
-        ld2 = vb.compute_perplexity(corpusids_part1[k], corpuscts_part1[k], corpusids_part2[k], corpuscts_part2[k])
-        LD2 += ld2
-        ld2_list.append(ld2)
-    return(LD2 / 5, ld2_list)
+    LD2 = vb.compute_perplexity(corpusids_part1[k], corpuscts_part1[k], corpusids_part2[k], corpuscts_part2[k])
+    return(LD2)
     
 """
     Compute perplexities, employing Frank-Wolfe.
 """
-def compute_perplexities_fw(beta, max_iter, corpusids_part1, corpuscts_part1, 
-                            corpusids_part2, corpuscts_part2):
+def compute_perplexities_fw(beta, max_iter, wordids_1, wordcts_1, wordids_2, wordcts_2):
     fw = per_fw.FW(beta, max_iter)
-    LD2 = 0.
-    ld2_list = list()
-    for k in range(5):
-        ld2 = fw.compute_perplexity(corpusids_part1[k], corpuscts_part1[k], corpusids_part2[k], corpuscts_part2[k])
-        LD2 += ld2
-        ld2_list.append(ld2)
-    return(LD2 / 5, ld2_list)
+    LD2 = fw.compute_perplexity(corpusids_part1[k], corpuscts_part1[k], corpusids_part2[k], corpuscts_part2[k])
+    return(LD2)
 
 """
     Compute document sparsity.
@@ -228,15 +208,9 @@ def write_topic_mixtures(theta, file_name):
         f.write('%.5f\n'%(theta[d][num_topics - 1]))
     f.close()
     
-def write_perplexities(LD2, ld2_list, model_folder):
-    per_file_name = '%s/perplexities.csv'%(model_folder)
-    f = open(per_file_name, 'a')
+def write_perplexities(LD2, file_name):
+    f = open(file_name, 'a')
     f.writelines('%f,'%(LD2))
-    f.close()
-    per_pairs_file_name = '%s/perplexities_pairs.csv'%(model_folder)
-    f = open(per_pairs_file_name, 'a')
-    f.writelines('%f,' % ld2 for ld2 in ld2_list)
-    f.writelines('\n')
     f.close()
 
 def write_topic_top(list_tops, file_name):
@@ -272,9 +246,10 @@ def write_setting(ddict, file_name):
         f.write('%s: %f\n'%(keys[i], vals[i]))
     f.close()
     
-def write_file(i, j, beta, time_e, time_m, theta, sparsity, LD2, ld2_list, list_tops, tops, model_folder):
+def write_file(i, j, beta, time_e, time_m, theta, sparsity, LD2, tops, model_folder):
     beta_file_name = '%s/beta_%d_%d.dat'%(model_folder, i, j)
     theta_file_name = '%s/theta_%d.dat'%(model_folder, i)
+    per_file_name = '%s/perplexities_%d.csv'%(model_folder, i)
     top_file_name = '%s/top%d_%d_%d.dat'%(model_folder, tops, i, j)
     spar_file_name = '%s/sparsity_%d.csv'%(model_folder, i)
     time_file_name = '%s/time_%d.csv'%(model_folder, i)
@@ -287,7 +262,7 @@ def write_file(i, j, beta, time_e, time_m, theta, sparsity, LD2, ld2_list, list_
     write_topic_mixtures(theta, theta_file_name)
     """
     # write perplexities
-    write_perplexities(LD2, ld2_list, model_folder)
+    write_perplexities(LD2, per_file_name)
     # write list top
     write_topic_top(list_tops, top_file_name)
     # write sparsity

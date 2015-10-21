@@ -1,10 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""
 
-@author: doanphongtung
-
-"""
 import sys, os, shutil
 import Streaming_FW
 
@@ -14,13 +10,13 @@ import utilities
 def main():
     # Check input
     if len(sys.argv) != 5:
-        print"usage: python run_Streaming_FW.py [train file] [setting file] [model folder] [divided data folder]"
+        print"usage: python run_Streaming_FW.py [train file] [setting file] [model folder] [test data folder]"
         exit()
     # Get environment variables
     train_file = sys.argv[1]
     setting_file = sys.argv[2]
     model_folder = sys.argv[3]
-    divided_data_folder = sys.argv[4]
+    test_data_folder = sys.argv[4]
     tops = 10#int(sys.argv[5])    
     # Create model folder if it doesn't exist
     if os.path.exists(model_folder):
@@ -34,8 +30,8 @@ def main():
     utilities.write_setting(ddict, file_name)
     # Read data for computing perplexities
     print'read data for computing perplexities ...'
-    (corpusids_part1, corpuscts_part1, corpusids_part2, corpuscts_part2) = \
-    utilities.read_data_for_perpl(divided_data_folder)
+    (wordids_1, wordcts_1, wordids_2, wordcts_2) = \
+    utilities.read_data_for_perpl(test_data_folder)
     # Initialize the algorithm
     print'initialize the algorithm ...'
     streaming_fw = Streaming_FW.StreamingFW(ddict['num_terms'], ddict['num_topics'], ddict['eta'], ddict['iter_infer'])
@@ -59,12 +55,12 @@ def main():
             # Compute sparsity
             sparsity = utilities.compute_sparsity(theta, theta.shape[0], theta.shape[1], 't')
             # Compute perplexities
-            (LD2, ld2_list) = utilities.compute_perplexities_fw(streaming_fw._lambda, ddict['iter_infer'], \
-                                         corpusids_part1, corpuscts_part1, corpusids_part2, corpuscts_part2)   
+            LD2 = utilities.compute_perplexities_fw(streaming_fw._lambda, ddict['iter_infer'], \
+                                                                 wordids_1, wordcts_1, wordids_2, wordcts_2)   
             # Search top words of each topics
             list_tops = utilities.list_top(streaming_fw._lambda, tops)    
             # Write files
-            utilities.write_file(i, j, streaming_fw._lambda, time_e, time_m, theta, sparsity, LD2, ld2_list, list_tops, tops, model_folder)
+            utilities.write_file(i, j, streaming_fw._lambda, time_e, time_m, theta, sparsity, LD2, list_tops, tops, model_folder)
         datafp.close()
     # Write final model to file
     file_name = '%s/lambda_final.dat'%(model_folder)

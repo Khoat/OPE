@@ -38,11 +38,12 @@ A. LEARNING ALGORITHMS
 Implementations are included in folders each of which is 
 named according to the name of the corresponding algorithm.
 Each folder includes a file implementing the algorithm and 
-the other file run the algorithm to learn model from a large corpus.
+the other file run the algorithm to learn model from a large
+corpus.
 
-Estimate a model by executing:
+Estimate a model by change directory to folder of an algorithm and executing:
 
-     python run_[name of algorithm] .py  [train file] [setting file] 
+     python run_[name of algorithm].py  [train file] [setting file] 
 [model folder] [test data folder]
 
 [train file]                      path of the training data.
@@ -52,7 +53,7 @@ Estimate a model by executing:
 [test data folder]             	  path of the folder contains data for computing
                                   perplexity (described in details in B).
 
-The model folder will contain some more files. These files contain some statistics of how the model is after a mini-batch is processed. These statistics include topic mixture sparsity, perplexity of the model, top ten words of each topic, and time for finishing E and M steps. 
+The model folder will contain some more files. These files contain some statistics of how the model is after a mini-batch is processed. These statistics include topic mixture sparsity, perplexity of the model, top ten words of each topic, and time for finishing the E and M steps. 
 
 Example: python ./run_ML_FW.py ../data/nyt_50k.txt ../settings.txt ../models/ML_FW/nyt ../data
 
@@ -79,12 +80,10 @@ B. MEASURE
 
 Perplexity is a popular measure to see predictiveness and generalization of a topic model.
 
-In order to compute perplexity of the model, the testing data is needed. Each document in testing data is randomly divided into two disjoint part w_obs and w_ho. After 5 times of independent dividing the testing data, there are 5 data couples (w_obs, w_ho)
-They are stored in [divided data folder] with corresponding file name is of the form:
+In order to compute perplexity of the model, the testing data is needed. Each document in testing data is randomly divided into two disjoint part w_obs and w_ho with the ratio 80:20
+They are stored in [test data folder] with corresponding file name is of the form:
 
-data_test_[i]_part_1.txt and data_test_[i]_part_2.txt
-
-where [i] is in range 1 to 5, specifying the ordinal number of the data couple. Perplexity is computed from all 5 data couples after processing a mini-batch.
+data_test_part_1.txt and data_test_part_2.txt
 
 
 ------------------------------------------------------------------------

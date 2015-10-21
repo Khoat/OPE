@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat May 31 20:38:39 2014
-
-@author: doanphongtung
-"""
 
 import time
 import numpy as np
