@@ -1,10 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""
 
-@author: doanphongtung
-
-"""
 import sys, os, shutil
 import ML_OPE
 
