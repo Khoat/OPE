@@ -246,7 +246,7 @@ def write_setting(ddict, file_name):
         f.write('%s: %f\n'%(keys[i], vals[i]))
     f.close()
     
-def write_file(i, j, beta, time_e, time_m, theta, sparsity, LD2, list_tops, tops, model_folder):
+def write_file(i, j, beta, time_e, time_m, theta, sparsity, LD2, tops, model_folder):
     beta_file_name = '%s/beta_%d_%d.dat'%(model_folder, i, j)
     theta_file_name = '%s/theta_%d.dat'%(model_folder, i)
     per_file_name = '%s/perplexities_%d.csv'%(model_folder, i)
