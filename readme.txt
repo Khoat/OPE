@@ -50,7 +50,7 @@ Estimate a model by executing:
 [setting file]                    path of setting file provides parameters 
                                   for learning.
 [model folder]                    path of the folder for saving the learned model.
-[test data folder]             	 path of the folder contains data for computing
+[test data folder]             	  path of the folder contains data for computing
                                   perplexity (described in details in B).
 
 The model folder will contain some more files. These files contain some statistics of how the model is after a mini-batch is processed. These statistics include topic mixture sparsity, perplexity of the model, top ten words of each topic, and time for finishing the E and M steps. 
