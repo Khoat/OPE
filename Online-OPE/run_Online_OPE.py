@@ -10,13 +10,13 @@ import utilities
 def main():
     # Check input
     if len(sys.argv) != 5:
-        print"usage: python run_Online_OPE.py [train file] [setting file] [model folder] [divided data folder]"
+        print"usage: python run_Online_OPE.py [train file] [setting file] [model folder] [test data folder]"
         exit()
     # Get environment variables
     train_file = sys.argv[1]
     setting_file = sys.argv[2]
     model_folder = sys.argv[3]
-    divided_data_folder = sys.argv[4]
+    test_data_folder = sys.argv[4]
     tops = 10#int(sys.argv[5])    
     # Create model folder if it doesn't exist
     if os.path.exists(model_folder):
@@ -31,7 +31,7 @@ def main():
     # Read data for computing perplexities
     print'read data for computing perplexities ...'
     (wordids_1, wordcts_1, wordids_2, wordcts_2) = \
-    utilities.read_data_for_perpl(divided_data_folder)
+    utilities.read_data_for_perpl(test_data_folder)
     # Initialize the algorithm
     print'initialize the algorithm ...'
     online_ope = Online_OPE.OnlineOPE(ddict['num_docs'], ddict['num_terms'], ddict['num_topics'], ddict['alpha'],
