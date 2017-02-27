@@ -9,13 +9,13 @@ This package is for academic uses only. OTHER USAGES MUST ASK FOR PERMISSION.
 This Python package contains six algorithms for learning Latent Dirichlet 
 Allocation (LDA) at large scales, including: ML-FW, Online-FW, Streaming-FW, ML-OPE, Online-OPE, Streaming-OPE. They are stochastic algorithms that can work with big text collections and text streams. Their cores are two fast inference approaches to understanding individual texts.
 
-The two inference approaches are Frank-Wolfe (FW) and Online Maximum a Posterior Estimation (OPE). FW has linear convergence rate, offers a principled way to trade off sparsity of solutions against quality. OPE theoretically converges to local optimum
-or stationary point with a linear rate. These two methods can be easily employed to do posterior inference for various probabilistic models.
+The two inference approaches are Frank-Wolfe (FW) and Online Maximum a Posteriori Estimation (OPE). FW has a fast convergence rate, offers a principled way to trade off sparsity of solutions against quality. OPE theoretically converges to local optimum
+or stationary point with a fast rate. These two methods can be easily employed to do posterior inference for various probabilistic models. OPE also can be readily used to solve nonconvex optimization problems.
 
 If you find the package useful, please consider to cite our related work:
 
-Khoat Than and Tu Bao Ho. Inference in topic models I: sparsity trade-off. Technical report, 2015.
-Khoat Than and Tung Doan. Inference in topic models II: provably guaranteed algorithms. Technical report, 2015.
+Than, Khoat, and Tu Bao Ho. "Inference in topic models: sparsity and trade-off." arXiv preprint arXiv:1512.03300 (2015).
+Than, Khoat, and Tung Doan. "Guaranteed inference in topic models." arXiv preprint arXiv:1512.03308 (2015).
 
 ------------------------------------------------------------------------
 TABLE OF CONTENTS
